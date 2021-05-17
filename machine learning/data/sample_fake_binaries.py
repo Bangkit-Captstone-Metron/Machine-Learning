@@ -8,6 +8,7 @@ import cv2
 fake_path = 'training/fake/'
 pristine_path = 'training/pristine/'
 mask_path = fake_path + 'masks/'
+numberOfBatch = 1
 
 def count_255(mask):
     i=0
@@ -48,7 +49,7 @@ def process(batch, common_list, images, masks):
 def main():
 
     x_train_masks = []
-    for i in range(9):
+    for i in range(numberOfBatch):
         with open('pickle/images/x_train_masks_' + str(i) + '.pickle', 'rb') as f:
             x_train_masks.extend(pickle.load(f))
 
@@ -71,7 +72,7 @@ def main():
     common_list = m.list()
 
     processes = []
-    for batch in range(9):
+    for batch in range(numberOfBatch):
         processes.append(Process(target=process, args=(batch, common_list, x_train_fake_images[batch*40:(batch+1)*40],
                                                        binaries[batch*40:(batch+1)*40])))
 
