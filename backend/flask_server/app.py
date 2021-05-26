@@ -4,14 +4,14 @@ from logging import Formatter, FileHandler
 from flask import Flask, request, jsonify
 import json
 
-from ocr import process_image
+from fake_checker import process_image
 
 app = Flask(__name__)
 _VERSION = 1
 
 
-@app.route('/v{}/ocr'.format(_VERSION), methods=["POST"])
-def ocr():
+@app.route('/v{}/fake_checker'.format(_VERSION), methods=['POST'])
+def fake_checker():
     try:
         url = request.get_json()['image_url']
     except TypeError:
@@ -44,8 +44,7 @@ def ocr():
              "request": request.data
         })
     app.logger.info(output)
-    return jsonify({"data": output})
-
+    return jsonify({"fake": output})
 
 @app.errorhandler(500)
 def internal_error(error):

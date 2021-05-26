@@ -1,4 +1,6 @@
-pytesseract>=0.2.4
 requests>=2.5.1
 Flask>=0.10.1
 Pillow>=2.7.0
+keras==2.4.3
+tensorflow==2.3.0
+imageio==2.9.0

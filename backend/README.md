@@ -1,8 +1,7 @@
 ## Metron Backend
 
 ### Features:
-* OCR
-* Image Forgery Detection (Coming soon)
+* Image Forgery Detection
 
 ### Installation
 
@@ -16,10 +15,8 @@ Note: Stop the app using Ctrl-C.
 
 ## Usage
 
-* OCR
-
 ```
-Path: /v1/ocr
+Path: /v1/fake_checker
 Method: POST
 Body: JSON
 {
@@ -27,10 +24,6 @@ Body: JSON
 }
 Result:
 {
-    "data": "..."
+    "fake": <boolean>
 }
 ```
-
-## TODO
-1. Add preprocessing to improve OCR Accuracy,
-1. Add image forgery detection
