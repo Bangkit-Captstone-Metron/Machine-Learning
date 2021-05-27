@@ -70,34 +70,34 @@ def main():
     m = Manager()
     common_list = m.list()
 
-    processes = []
-    for batch in range(3):
-        processes.append(Process(target=process, args=(batch, common_list, x_train_fake_images[batch*40:(batch+1)*40],
-                                                       binaries[batch*40:(batch+1)*40])))
+#     processes = []
+#     for batch in range(9):
+#         processes.append(Process(target=process, args=(batch, common_list, x_train_fake_images[batch*40:(batch+1)*40],
+#                                                        binaries[batch*40:(batch+1)*40])))
 
-    for p in processes:
-        p.start()
+#     for p in processes:
+#         p.start()
 
-    for p in processes:
-        p.join()
-        print('Masuk join ke-1')
+#     for p in processes:
+#         p.join()
+#         print('Masuk join ke-1')
         
-    print('Keluar dari join ke-1')
+#     print('Keluar dari join ke-1')
     
-    processes_2 = []  
+#     processes_2 = []  
     
-    for batch in range(3,6):
-        processes_2.append(Process(target=process, args=(batch, common_list, x_train_fake_images[batch*40:(batch+1)*40],
-                                                       binaries[batch*40:(batch+1)*40])))
+#     for batch in range(3,6):
+#         processes_2.append(Process(target=process, args=(batch, common_list, x_train_fake_images[batch*40:(batch+1)*40],
+#                                                        binaries[batch*40:(batch+1)*40])))
         
-    for p in processes_2:
-        p.start()
+#     for p in processes_2:
+#         p.start()
 
-    for p in processes_2:
-        p.join()
-        print('Masuk join ke-2')
+#     for p in processes_2:
+#         p.join()
+#         print('Masuk join ke-2')
         
-    print('Keluar dari join ke-2')
+#     print('Keluar dari join ke-2')
     
     processes_3 = []
     
@@ -119,7 +119,7 @@ def main():
         samples_fake_np = np.concatenate((samples_fake_np, fake_sample[np.newaxis, :, :, :3]), axis=0)
 
     print('done')
-    np.save('sample_images/k64 binary 25percent stride8/sample_fakes_np.npy', samples_fake_np)
+    np.save('sample_images/k64 binary 25percent stride8/sample_fakes_np_6_9.npy', samples_fake_np)
 
 
 if __name__ == '__main__':

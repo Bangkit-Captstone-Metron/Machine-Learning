@@ -45,19 +45,21 @@ def process_image(url):
 
     top_model.add(Dense(1, activation='sigmoid'))
 
-    top_model.load_weights('./model/top_model_full_data_custom_lr_weights.h5')
+    # top_model.load_weights('./model/top_model_full_data_custom_lr_weights.h5')
     
     model_aug.add(top_model)
 
     for layer in model_aug.layers[0].layers[:17]:
         layer.trainable = False
+        
+    model_aug.load_weights('./model/fine_tuned_model_adam_weights_new.h5')
 
     model_aug.compile(loss='binary_crossentropy',
                       optimizer=Adam(lr=1e-6), metrics=['accuracy'])
 
     result = model_aug.predict_classes(image)
 
-    return np.count_nonzero(result)/len(result) > _THRESHOLD
+    return np.count_nonzero(result)/len(result) <= _THRESHOLD
 
 
 def _get_image(url, session=session):
@@ -72,6 +74,15 @@ def _get_image(url, session=session):
 
 
 if __name__ == '__main__':
-    # result = process_image("https://i.ibb.co/zSNzCt4/244a7433a307b9a2c839cefe14c0ba1d.png") #fake
-    result = process_image("https://i.ibb.co/FWMF04K/0ad15fb810f4cf428742462824236158.png") #pristine
-    print(result)
+    list_url = [
+        'https://i.ibb.co/4j1yxMR/152681a0017a5fded699c43cd6df97d1.png', #fake from dataset
+        'https://i.ibb.co/FWMF04K/0ad15fb810f4cf428742462824236158.png', # pristine from dataset
+        'https://i.stack.imgur.com/peB3w.png', #7 digit display 
+        'https://i.stack.imgur.com/MIe6s.png', #7 digit display
+        'https://i.stack.imgur.com/2rbal.png', #7 digit display
+        'https://i.stack.imgur.com/KUfwD.png', #7 digit display
+        'https://i.stack.imgur.com/oGsK8.png'  #7 digit display
+    ]
+    for url in list_url:
+        result = process_image(url) #7 digit display
+        print(f'URL: {url} ==> Fake: {result}')
