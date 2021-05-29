@@ -81,7 +81,10 @@ if __name__ == '__main__':
         'https://i.stack.imgur.com/MIe6s.png', #7 digit display
         'https://i.stack.imgur.com/2rbal.png', #7 digit display
         'https://i.stack.imgur.com/KUfwD.png', #7 digit display
-        'https://i.stack.imgur.com/oGsK8.png'  #7 digit display
+        'https://i.stack.imgur.com/oGsK8.png',  #7 digit display
+        'https://medialampung.co.id/wp-content/uploads/2020/01/KWH-Pascabayar.jpg', #fake
+        'https://i.ibb.co/Hp4FCcZ/1622199455244.jpg', #pristine
+        'https://i.ibb.co/6WXN05s/13989611014162.jpg' #pristine
     ]
     for url in list_url:
         result = process_image(url) #7 digit display

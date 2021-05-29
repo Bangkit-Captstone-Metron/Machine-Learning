@@ -9,6 +9,9 @@ from fake_checker import process_image
 app = Flask(__name__)
 _VERSION = 1
 
+@app.route('/v{}/health'.format(_VERSION), methods=['GET'])
+def health():
+    return 'OK'
 
 @app.route('/v{}/fake_checker'.format(_VERSION), methods=['POST'])
 def fake_checker():
