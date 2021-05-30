@@ -27,11 +27,9 @@ def sample_test_image(img):
 
     return samples
 
-
-def process_image(url):
+def process_image(image):
     _THRESHOLD = 0.5
     
-    image = _get_image(url)
     vgg_model = VGG16(weights='imagenet', include_top=False,
                       input_shape=(64, 64, 3))
 
@@ -62,10 +60,22 @@ def process_image(url):
     return np.count_nonzero(result)/len(result) <= _THRESHOLD
 
 
+def process_image_file(raw_image_fila):
+    image = _get_image_file(raw_image_fila)
+    return process_image(image)
+
+
+def process_image_url(url):
+    image = _get_image(url)
+    return process_image(image)
+
+
+def _get_image_file(image_file):
+    original_image = imread(image_file)
+    return sample_test_image(original_image)
+
 def _get_image(url, session=session):
     original_image = imread(session.get(url).content)
-    
-    # original_image = imread('tests/fake/010543abfbd0db1e9aa1b24604336e0c.png')
     
     # plt.imshow(original_image)
     # plt.show()
