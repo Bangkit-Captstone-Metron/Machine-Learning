@@ -4,14 +4,16 @@ from logging import Formatter, FileHandler
 from flask import Flask, request, jsonify
 import json
 
-from fake_checker import process_image
+from fake_checker import process_image_url, process_image_file
 
 app = Flask(__name__)
 _VERSION = 1
 
+
 @app.route('/v{}/health'.format(_VERSION), methods=['GET'])
 def health():
     return 'OK'
+
 
 @app.route('/v{}/fake_checker'.format(_VERSION), methods=['POST'])
 def fake_checker():
@@ -35,7 +37,7 @@ def fake_checker():
     # Process the image
     print("URL extracted:", url)
     try:
-        output = process_image(url)
+        output = process_image_url(url)
     except OSError:
         return jsonify({
             "error": "URL not recognized as image",
@@ -44,10 +46,36 @@ def fake_checker():
     except:
         return jsonify({
             "error": "Unknown processing image",
-             "request": request.data
+            "request": request.data
         })
     app.logger.info(output)
     return jsonify({"fake": output})
+
+
+@app.route('/v{}/file_fake_checker'.format(_VERSION), methods=['POST'])
+def file_fake_checker():
+    try:
+        image = request.files['image']
+    except:
+        return jsonify({
+            "error": "Please send multipart/form-data with image file",
+            "data": request.data
+        })
+
+    try:
+        output = process_image_file(image)
+    except OSError:
+        return jsonify({
+            "error": "Not recognized as image"
+        })
+    except:
+        return jsonify({
+            "error": "Unknown processing image",
+            "request": request.data
+        })
+    app.logger.info(output)
+    return jsonify({"fake": output})
+
 
 @app.errorhandler(500)
 def internal_error(error):
