@@ -5,6 +5,8 @@ from flask import Flask, request, jsonify
 import json
 
 from fake_checker import process_image_url, process_image_file
+from fake_checker_stride8 import process_image_url_stride8, process_image_file_stride8
+
 
 app = Flask(__name__)
 _VERSION = 1
@@ -64,6 +66,68 @@ def file_fake_checker():
 
     try:
         output = process_image_file(image)
+    except OSError:
+        return jsonify({
+            "error": "Not recognized as image"
+        })
+    except:
+        return jsonify({
+            "error": "Unknown processing image",
+            "request": request.data
+        })
+    app.logger.info(output)
+    return jsonify({"fake": output})
+
+
+@app.route('/v{}/fake_checker'.format(_VERSION+1), methods=['POST'])
+def fake_checker_stride8():
+    try:
+        url = request.get_json()['image_url']
+    except TypeError:
+        try:
+            data = json.loads(request.data.decode('utf-8'), encoding='utf-8')
+            url = data['img_url']
+        except:
+            return jsonify({
+                "error": "Could not get 'image_url' from the request object",
+                "data": request.data
+            })
+    except:
+        return jsonify({
+            "error": "Non-TypeError. Please send {'image_url': 'http://.....'}",
+            "data": request.data
+        })
+
+    # Process the image
+    print("URL extracted:", url)
+    try:
+        output = process_image_url_stride8(url)
+    except OSError:
+        return jsonify({
+            "error": "URL not recognized as image",
+            "url": url
+        })
+    except:
+        return jsonify({
+            "error": "Unknown processing image",
+            "request": request.data
+        })
+    app.logger.info(output)
+    return jsonify({"fake": output})
+
+
+@app.route('/v{}/file_fake_checker'.format(_VERSION+1), methods=['POST'])
+def file_fake_checker_stride8():
+    try:
+        image = request.files['image']
+    except:
+        return jsonify({
+            "error": "Please send multipart/form-data with image file",
+            "data": request.data
+        })
+
+    try:
+        output = process_image_file_stride8(image)
     except OSError:
         return jsonify({
             "error": "Not recognized as image"
