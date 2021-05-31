@@ -54,7 +54,7 @@ def process_image(image):
 
     result = model_aug.predict(image)
 
-    return bool(((result > 0.75).sum()/len(result)) > 0.25)
+    return bool(((result > 0.7).sum()/len(result)) < 0.35)
 
 
 def process_image_file_stride8(raw_image_fila):
@@ -76,3 +76,21 @@ def _get_image(url, session=session):
     original_image = imread(session.get(url).content)
 
     return sample_test_image(original_image)
+
+
+if __name__ == '__main__':
+    list_url = [
+        'https://i.ibb.co/4j1yxMR/152681a0017a5fded699c43cd6df97d1.png', #fake from dataset
+        'https://i.ibb.co/FWMF04K/0ad15fb810f4cf428742462824236158.png', # pristine from dataset
+        'https://i.stack.imgur.com/peB3w.png', #7 digit display 
+        'https://i.stack.imgur.com/MIe6s.png', #7 digit display
+        'https://i.stack.imgur.com/2rbal.png', #7 digit display
+        'https://i.stack.imgur.com/KUfwD.png', #7 digit display
+        'https://i.stack.imgur.com/oGsK8.png',  #7 digit display
+        'https://medialampung.co.id/wp-content/uploads/2020/01/KWH-Pascabayar.jpg', #fake
+        'https://i.ibb.co/Hp4FCcZ/1622199455244.jpg', #pristine
+        'https://i.ibb.co/6WXN05s/13989611014162.jpg' #pristine
+    ]
+    for url in list_url:
+        result = process_image_url_stride8(url) #7 digit display
+        print(f'URL: {url} ==> Fake: {result}')

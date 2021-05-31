@@ -28,7 +28,7 @@ def sample_test_image(img):
     return samples
 
 def process_image(image):
-    _THRESHOLD = 0.5
+    _THRESHOLD = 0.4
     
     vgg_model = VGG16(weights='imagenet', include_top=False,
                       input_shape=(64, 64, 3))
@@ -97,5 +97,5 @@ if __name__ == '__main__':
         'https://i.ibb.co/6WXN05s/13989611014162.jpg' #pristine
     ]
     for url in list_url:
-        result = process_image(url) #7 digit display
+        result = process_image_url(url) #7 digit display
         print(f'URL: {url} ==> Fake: {result}')
