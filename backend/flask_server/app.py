@@ -176,7 +176,7 @@ def fake_checker_ela():
             "request": request.data
         })
     app.logger.info(output)
-    return jsonify({"fake": output})
+    return jsonify(output)
 
 
 @app.route('/v{}/file_fake_checker'.format(_VERSION+2), methods=['POST'])
@@ -201,7 +201,7 @@ def file_fake_checker_ela():
             "request": request.data
         })
     app.logger.info(output)
-    return jsonify({"fake": output})
+    return jsonify(output)
 
 
 @app.errorhandler(500)
