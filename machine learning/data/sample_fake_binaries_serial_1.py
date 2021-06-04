@@ -7,7 +7,6 @@ import cv2
 fake_path = 'training/fake/'
 pristine_path = 'training/pristine/'
 mask_path = fake_path + 'masks/'
-numberOfBatch = 2
 
 def count_255(mask):
     # print("Start counting")
@@ -49,14 +48,16 @@ def sample_fake(img, mask):
 def main():
 
     x_train_masks = []
-    with open('pickle/images/x_train_masks_' + str(numberOfBatch) + '.pickle', 'rb') as f:
-        x_train_masks.extend(pickle.load(f))
+    for i in range(1):
+        with open('pickle/images/x_train_masks_' + str(i) + '.pickle', 'rb') as f:
+            x_train_masks.extend(pickle.load(f))
 
     with open('pickle/images_names/x_train_fakes_names.pickle', 'rb') as f:
         x_train_fakes_names = pickle.load(f)
 
     x_train_fakes_names_final = []
-    x_train_fakes_names_final.extend(x_train_fakes_names[numberOfBatch*40:(numberOfBatch+1)*40])
+    for batch in range(1):
+        x_train_fakes_names_final.extend(x_train_fakes_names[batch*40:(batch+1)*40])
 
     x_train_fake_images = []
     for img in x_train_fakes_names_final:
@@ -88,7 +89,7 @@ def main():
     samples_fakes_np = np.array(samples_fakes_arr)
 
     print('done')
-    np.save('sample_images/k64 binary 25percent stride8/sample_fakes_'+str(numberOfBatch+1)+'.npy', samples_fakes_np)
+    np.save('sample_images/k64 binary 25percent stride8/sample_fakes_1.npy', samples_fakes_np)
 
 
 if __name__ == '__main__':
