@@ -7,7 +7,7 @@ import cv2
 fake_path = 'training/fake/'
 pristine_path = 'training/pristine/'
 mask_path = fake_path + 'masks/'
-numberOfBatch = 2
+numberOfBatch = 5
 
 def count_255(mask):
     # print("Start counting")
